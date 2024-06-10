@@ -6,7 +6,7 @@
 /*   By: vyepremy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 21:37:08 by vyepremy          #+#    #+#             */
-/*   Updated: 2024/06/01 22:40:18 by vyepremy         ###   ########.fr       */
+/*   Updated: 2024/06/05 00:00:38 by vyepremy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void	map(float num, float max, float old_max)
+float	map(float num, float min, float max, float old_min, float old_max)
 {
-	return (-max + 2 * max * (num - old_max / 2) / old_max);
+    return (max - min) * (num - old_min) / (old_max - old_min) + min;
 }
 
 void	calc_next(complex_t *z, complex_t *c)
 {
 	complex_t	z_next;
 
-	z_next.im = 2 * z.im * z.re + c.im;
-	z_next.re = z.re * z.re - z.im * z.im + c.re;
-	z.im = z_next.im;
-	z.re = z_next.re;
+	z_next.im = 2 * z->im * z->re + c->im;
+	z_next.re = z->re * z->re - z->im * z->im + c->re;
+	z->im = z_next.im;
+	z->re = z_next.re;
 }
 
 void    usage()
@@ -50,6 +50,27 @@ int	close_app(window_t *fractol)
 	return (EXIT_FAILURE);
 }
 
+void	mlx_put_pixel_to_img(int row, int col, int iter, window_t *fractol)
+{
+	int	idx;
+	int	color;
+
+	idx = row * fractol->img_num_rows + col * 4;
+	color = map(iter, RED, WHITE, 0, MAX_ITER);
+	if (fractol->img_endian == 1)
+	{
+		fractol->img_buffer[idx] = color >> 24;
+		fractol->img_buffer[idx + 1] = (color >> 16) & 0xFF;
+		fractol->img_buffer[idx + 2] = (color >> 8) & 0xFF;
+		fractol->img_buffer[idx + 3] = color && 0xFF;
+		return ;
+	}
+	fractol->img_buffer[idx + 3] = color >> 24;
+	fractol->img_buffer[idx + 2] = (color >> 16) & 0xFF;
+	fractol->img_buffer[idx + 1] = (color >> 8) & 0xFF;
+	fractol->img_buffer[idx] = color && 0xFF;
+}
+
 int	on_key_event(window_t *fractol)
 {
 	return (1);
@@ -60,33 +81,30 @@ int	on_mouse_event(window_t *fractol)
 	return (1);
 }
 
-int	render_mandelbrot(window_t *fractol)
+void	render_mandelbrot(window_t *fractol)
 {
-	int			iter;
+	int			it;
+	int			i;
+	int			j;
 	complex_t	z;
 	complex_t	c;
 
-	x = -1;
-	while (++x < HEIGHT)
+	i = -1;
+	while (++i < HEIGHT)
 	{
-		y = -1;
-		while (++y < WIDTH)
+		j = -1;
+		while (++j < WIDTH)
 		{
-			c = (complex_t) {.re = map(x, 2, WIDTH), .im = map(y, 2, HEIGHT)};
-			z = (complex_t) {.im = 0, .re = 0};
-			iter = -1;
-			while (++iter < MAX_IT && z.im * z.im + z.re * z.re < DIVERGE_VALUE)
+			z = (complex_t) {.im = 0.0, .re = 0.0};
+			c.im = map(i, -2, 2, 0, HEIGHT);
+			c.re = map(j, -2, 2, 0, WIDTH);
+			it = -1;
+			while (++it < MAX_ITER && z.im * z.im + z.re * z.re < DIVERGE_VALUE)
 				calc_next(&z, &c);
-			put_pixel();
+			mlx_put_pixel_to_img(i, j, it, fractol);
 		}
 	}
 	mlx_put_image_to_window(fractol->mlx, fractol->win, fractol->img, 0, 0);
-	return (1);
-}
-
-int	render_julia(window_t *fractol)
-{
-	return (1);
 }
 
 int	create_fractol(set_t set)
@@ -102,14 +120,17 @@ int	create_fractol(set_t set)
 	fractol.img = mlx_new_image(fractol.mlx, WIDTH, HEIGHT);
 	if (!fractol.img)
 		return (close_app(&fractol));
-
 	fractol.renderer = render_mandelbrot;
 	if (set == julia)
-		fractol.renderer = render_julia;
-	fractol.renderer(&fractol);
+		fractol.renderer = render_mandelbrot;
+	fractol.img_buffer = mlx_get_data_addr(fractol.img, &(fractol.pixel_bits),
+			&(fractol.img_num_rows), &(fractol.img_endian));
+	if (!fractol.img_buffer)
+		return (close_app(&fractol));
 	mlx_key_hook(fractol.win, on_key_event, &fractol);
 	mlx_mouse_hook(fractol.win, on_mouse_event, &fractol);
 	mlx_hook(fractol.win, 17, 0, close_app, &fractol);
+	fractol.renderer(&fractol);
     mlx_loop(fractol.mlx);
 	return (EXIT_SUCCESS);
 }

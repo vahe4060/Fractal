@@ -4,15 +4,15 @@
 #include "mlx.h"
 #include <stdlib.h>
 
-#define WIDTH	500
-#define	HEIGHT	500
-#define	MAX_IT	200
-#define DIVERGE_VALUE	4
-#define WHITE	0xFFFFFF
-#define BLACK	0x000000
-#define RED		0xFF0000
-#define GREEN	0x00FF00
-#define BLUE	0x0000FF
+#define WIDTH			500
+#define	HEIGHT			500
+#define	MAX_ITER		200
+#define DIVERGE_VALUE	4.0
+#define WHITE			0xFFFFFF
+#define BLACK			0x000000
+#define RED				0xFF0000
+#define GREEN			0x00FF00
+#define BLUE			0x0000FF
 
 typedef enum {
 	julia = '0', 
@@ -29,9 +29,12 @@ typedef struct	window {
 	void	*mlx;
 	void	*win;
 	void	*img;
-	int			(*renderer)(void *);
-	float	scale;
-}				window_t;
+	char	*img_buffer;
+	void	(*renderer)(void *);
+	int		img_num_rows;
+	int		img_endian;
+	int		pixel_bits;
+}	window_t;
 
 size_t  ft_strlen(const char *c)
 {
