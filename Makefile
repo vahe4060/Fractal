@@ -5,8 +5,8 @@ OBJECTS = $(SOURCES:.c=.o)
 
 CC = gcc
 CFLAGS = -Wall -Wextra #-Werror
-MLX = MiniLibX
-MLX_FLAGS = -l mlx -framework OpenGL -framework Appkit
+MLX = mlx
+MLX_FLAGS = -lmlx -lm -framework OpenGL -framework Appkit
 
 all: $(TARGET)
 
