@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vyepremy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/16 22:32:05 by vyepremy          #+#    #+#             */
+/*   Updated: 2024/06/16 22:32:10 by vyepremy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef UTILS_H
 # define UTILS_H
 
@@ -119,7 +131,6 @@ typedef struct window
 	int		pixel_bits;
 	int		color;
 }	t_window;
-
 
 size_t	ft_strlen(const char *c);
 float	map(float num, float min, float max, float old_max);

@@ -104,7 +104,6 @@ void	render_julia(t_window *fractol)
 	mlx_put_image_to_window(fractol->mlx, fractol->win, fractol->img, 0, 0);
 }
 
-
 int	main(int argc, char **argv)
 {
 	if (argc != 2)
