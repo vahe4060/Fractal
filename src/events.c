@@ -17,13 +17,13 @@ int	on_key_event(int key, t_window *fractol)
 	if (key == KEY_ESC)
 		close_app(fractol);
 	else if (key == KEY_LEFT)
-		fractol->shift_x -= 0.2;
+		fractol->shift_x -= 60 / fractol->zoom;
 	else if (key == KEY_RIGHT)
-		fractol->shift_x += 0.2;
+		fractol->shift_x += 60 / fractol->zoom;
 	else if (key == KEY_UP)
-		fractol->shift_y -= 0.2;
+		fractol->shift_y -= 60 / fractol->zoom;
 	else if (key == KEY_DOWN)
-		fractol->shift_y += 0.2;
+		fractol->shift_y += 60 / fractol->zoom;
 	else if (key == KEY_Q)
 		fractol->color += 0x000200;
 	else if (key == KEY_W)
@@ -31,7 +31,6 @@ int	on_key_event(int key, t_window *fractol)
 	else if (key == KEY_E)
 		fractol->color += 0x001000;
 	fractol->renderer(fractol);
-	mlx_do_sync(fractol->mlx);
 	return (EXIT_SUCCESS);
 }
 
@@ -70,4 +69,11 @@ int	close_app(t_window *fractol)
 	if (fractol->win)
 		mlx_destroy_window(fractol->mlx, fractol->win);
 	exit(0);
+}
+
+void	error_exit(char *msg, t_window *fractol)
+{
+	write(1, "Error: ", 7);
+	write(1, msg, ft_strlen(msg));
+	close_app(fractol);
 }

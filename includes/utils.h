@@ -133,10 +133,8 @@ typedef struct window
 }	t_window;
 
 size_t	ft_strlen(const char *c);
-float	map(float num, float min, float max, float old_max);
 void	calc_next(t_complex *z, t_complex *c, int is_ship);
 void	set_pixel_color(t_window *engine, int x, int y, int color);
-void	put_pixel_to_img(int row, int col, int iter, t_window *fractol);
 void	init_fractol_window(t_window *fractol);
 void	create_fractol(t_set set);
 void	error_exit(char *msg, t_window *fractol);

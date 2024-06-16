@@ -1,13 +1,12 @@
 TARGET = fractol
 SOURCES = 	src/main.c \
 			src/events.c \
-			src/init.c \
 			src/utils.c
 INCLUDES = includes/utils.h
 OBJECTS = $(SOURCES:.c=.o)
 INCLUDES_DIR = includes/
 
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 MLX = mlx
 MLX_FLAGS = -lmlx -lm -framework OpenGL -framework Appkit
@@ -34,9 +33,9 @@ fclean: clean
 
 re: fclean all
 
-debug: fclean
-	@echo "- making debug"
-	@make -s $(TARGET) CFLAGS="$(CFLAGS) -g"
-	@echo "- success (debug)"
+# debug: fclean
+# 	@echo "- making debug"
+# 	@make -s $(TARGET) CFLAGS="$(CFLAGS) -g"
+# 	@echo "- success (debug)"
 
 .PHONY: all, clean, fclean, re, debug
