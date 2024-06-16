@@ -1,5 +1,8 @@
 TARGET = fractol
-SOURCES = src/main.c
+SOURCES = 	src/main.c \
+			src/events.c \
+			src/init.c \
+			src/utils.c
 INCLUDES = includes/utils.h
 OBJECTS = $(SOURCES:.c=.o)
 INCLUDES_DIR = includes/

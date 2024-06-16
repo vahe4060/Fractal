@@ -1,17 +1,19 @@
 #ifndef UTILS_H
 # define UTILS_H
 
-#include "mlx.h"
-#include <stdlib.h>
+# include "mlx.h"
+# include <stdlib.h>
+# include <unistd.h>
+# include <math.h>
 
-#define SIZE			500
-#define	MAX_ITER		200
-#define DIVERGE_VALUE	4.0
-#define WHITE			0xFFFFFF
-#define BLACK			0x000000
-#define RED				0xFF0000
-#define GREEN			0x00FF00
-#define BLUE			0x0000FF
+# define SIZE			500
+# define MAX_ITER		200
+# define DIVERGE_VALUE	4.0
+# define WHITE			0xFFFFFF
+# define BLACK			0x000000
+# define RED				0xFF0000
+# define GREEN			0x00FF00
+# define BLUE			0x0000FF
 
 # ifdef __linux__
 
@@ -86,17 +88,18 @@ enum e_keys
 };
 # endif
 
-typedef enum {
+typedef enum set_type
+{
 	julia = '0',
 	mandelbrot = '1',
 	ship = '2'
-} t_set;
+}	t_set;
 
 typedef struct complex
 {
 	float	re;
 	float	im;
-} t_complex;
+}	t_complex;
 
 typedef struct window
 {
@@ -116,5 +119,23 @@ typedef struct window
 	int		pixel_bits;
 	int		color;
 }	t_window;
+
+
+size_t	ft_strlen(const char *c);
+float	map(float num, float min, float max, float old_max);
+void	calc_next(t_complex *z, t_complex *c, int is_ship);
+void	set_pixel_color(t_window *engine, int x, int y, int color);
+void	put_pixel_to_img(int row, int col, int iter, t_window *fractol);
+void	init_fractol_window(t_window *fractol);
+void	create_fractol(t_set set);
+void	error_exit(char *msg, t_window *fractol);
+int		on_key_event(int key, t_window *fractol);
+int		on_mouse_click_event(int key, int x, int y, t_window *fractol);
+int		on_mouse_move_event(int x, int y, t_window *fractol);
+int		close_app(t_window *fractol);
+void	usage(void);
+void	render_mandelbrot(t_window *fractol);
+void	render_ship(t_window *fractol);
+void	render_julia(t_window *fractol);
 
 #endif
