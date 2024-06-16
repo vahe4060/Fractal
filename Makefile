@@ -1,10 +1,11 @@
 TARGET = fractol
 SOURCES = src/main.c
-INCLUDES = includes/
+INCLUDES = includes/utils.h
 OBJECTS = $(SOURCES:.c=.o)
+INCLUDES_DIR = includes/
 
 CC = gcc
-CFLAGS = -Wall -Wextra #-Werror
+CFLAGS = -Wall -Wextra -Werror
 MLX = mlx
 MLX_FLAGS = -lmlx -lm -framework OpenGL -framework Appkit
 
@@ -13,8 +14,8 @@ all: $(TARGET)
 $(TARGET): $(OBJECTS) $(MLX)/libmlx.a
 	$(CC) $(CFLAGS) -o $@ $^ $(MLX_FLAGS)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -I ./$(MLX) -I ./$(INCLUDES) -o $@ -c $<
+%.o: %.c $(INCLUDES)
+	$(CC) $(CFLAGS) -I ./$(MLX) -I ./$(INCLUDES_DIR) -o $@ -c $<
 
 $(MLX)/libmlx.a:
 	@echo "- making MiniLibX"

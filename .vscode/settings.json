@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "utils.h": "c",
+        "__node_handle": "c",
+        "bitset": "c"
+    }
+}

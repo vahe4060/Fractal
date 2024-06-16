@@ -4,10 +4,8 @@
 #include "mlx.h"
 #include <stdlib.h>
 
-#define WIDTH			500
-#define	HEIGHT			500
+#define SIZE			500
 #define	MAX_ITER		200
-#define MIN_ITER		5
 #define DIVERGE_VALUE	4.0
 #define WHITE			0xFFFFFF
 #define BLACK			0x000000
@@ -89,28 +87,34 @@ enum e_keys
 # endif
 
 typedef enum {
-	julia = '0', 
-	mandelbrot = '1'
-} set_t;
+	julia = '0',
+	mandelbrot = '1',
+	ship = '2'
+} t_set;
 
-typedef struct complex_number
+typedef struct complex
 {
 	float	re;
 	float	im;
-} complex_t;
+} t_complex;
 
-typedef struct	window {
+typedef struct window
+{
 	void	*mlx;
 	void	*win;
 	void	*img;
 	char	*img_buffer;
-	void	(*renderer)(void *);
+	void	(*renderer)(struct window *);
+	t_set	type;
+	int		c_x;
+	int		c_y;
 	float	zoom;
 	float	shift_x;
 	float	shift_y;
 	int		img_num_rows;
 	int		img_endian;
 	int		pixel_bits;
-}	window_t;
+	int		color;
+}	t_window;
 
 #endif
