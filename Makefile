@@ -1,4 +1,4 @@
-TARGET = fractol
+TARGET = fractal
 SOURCES = 	src/main.c \
 			src/events.c \
 			src/utils.c

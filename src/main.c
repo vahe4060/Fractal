@@ -16,7 +16,7 @@ void	usage(void)
 {
 	char	*msg;
 
-	msg = "Usage: ./fractol [0-2]\n\
+	msg = "Usage: ./fractal [0-2]\n\
 	[0] - julia set\n\
 	[1] - mondelbrod set\n\
 	[2] - burning ship set\n";
