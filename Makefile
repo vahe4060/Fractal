@@ -23,15 +23,14 @@ endif
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS) $(MLX_DIR)/libmlx.a
-	$(CC) $(CFLAGS) -o $@ $^ $(MLX_FLAGS)
+	@$(CC) $(CFLAGS) -o $@ $^ $(MLX_FLAGS)
 
 %.o: %.c $(INCLUDES)
-	$(CC) $(CFLAGS) -I ./$(MLX_DIR) -I ./$(INCLUDES_DIR) -o $@ -c $<
+	@$(CC) $(CFLAGS) -I ./$(MLX_DIR) -I ./$(INCLUDES_DIR) -o $@ -c $<
 
 $(MLX_DIR)/libmlx.a:
-	@echo "- making MiniLibX"
+	@echo "making MiniLibX"
 	@make -sC $(MLX_DIR)
-	@echo "- success"
 
 clean:
 	@make -sC $(MLX_DIR) clean
@@ -43,10 +42,8 @@ fclean: clean
 re: fclean all
 
 debug: fclean
-	@echo "- making debug"
+	@echo "making debug"
 	CFLAGS="$(CFLAGS) -g"
 	@make -s
-	@echo "- success (debug)"
-
 
 .PHONY: all, clean, fclean, re, debug
