@@ -1,7 +1,8 @@
 ## Fractal 
 A simple version of a **Fractal** using the **MLX** (MiniLibX) library in C.
 
-![ezgif-3-a9038c5575](https://github.com/user-attachments/assets/fdef478c-71e4-4867-8e8f-b91024370917)
+![ezgif-3-a9038c5575](https://github.com/user-attachments/assets/b335f432-3cbb-449d-adf6-c1642997f0e0)
+
 
 ## How to run
 	git clone https://github.com/vahe4060/Fractal.git
